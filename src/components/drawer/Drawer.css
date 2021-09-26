@@ -1,0 +1,31 @@
+.back-color {
+    background-color: #55BFB9;
+}
+
+
+.title {
+    font-size: 27px !important;
+    font-weight: bold !important;
+    color: #011238;
+    font-weight: bold;
+    flex-grow: 1;
+}
+
+.drawer-button {
+    height: 60px;
+}
+
+.drawer-icon {
+    color: #011238;
+    font-size: 36px !important;
+}
+
+.drawer-link {
+    color: #011238;
+    text-decoration: none;
+}
+
+
+.menuButton {
+    color: #011238;
+}
