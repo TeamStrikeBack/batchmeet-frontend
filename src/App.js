@@ -11,9 +11,12 @@ const App = () => (
     <Fragment>
       <main>
         <DrawerLeft />
+         
       </main>
     </Fragment>
+    
   </Router>
+  
 );
 
 export default App;

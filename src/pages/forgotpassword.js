@@ -1,4 +1,4 @@
-import  React from 'react';
+import React from "react";
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -40,8 +40,8 @@ const themeOptions = {
 
 const theme = createTheme(themeOptions);
 
-export default function Login() {
-  const [logedin, setLogedin] = useGlobalState("logedIn");
+export default function forgotpassword() {
+  
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -51,11 +51,7 @@ export default function Login() {
       password: data.get('password'),
     });
   };
-  const preventDefault = (event) => event.preventDefault();
-  const setLoggedIn = () => {
-    console.log(logedin);
-    setLogedin(true);
-  };
+  
 
   return (
     <ThemeProvider theme={theme}>
@@ -73,64 +69,49 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Log In
+          Forgot your password?
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
+          <Typography component="p" variant="p" sx={{ mt: 2}} align='center'>
+          Enter you email address and We'll send you a link to reset password
+          </Typography>
+          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 5 }} >
+          
+         
+          
             <TextField
               margin="normal"
              
               required
               fullWidth
-              id="username"
-              label="User Name"
-              name="username"
-              autoComplete="username"
+              id="email"
+              label="Email"
+              name="email"
+              autoComplete="email"
               
               autoFocus
               
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              style={{color:"#55BFB9"}}
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" style={{color:"#55BFB9"}} />}
-              label="Remember me"
-            />
-            <Link to="/home" style={{textDecoration:"none"}}>
+           
+            
+            <Link to="/resetlink" style={{textDecoration:"none"}}>
             <Button
               fullWidth
               variant="contained"
               style={{backgroundColor:"#55BFB9",fontWeight:"bold",color:"white", marginBottom:"25px"}}
               sx={{ mt: 3, mb: 2 }}
-              onClick={setLoggedIn}
+             
             >
-              Sign In
+              Reset
             </Button>
             </Link>
-            <Grid container  style={{fontFamily:"Verdana",fontSize:"14px"}}>
-              <Grid item xs>
-                <Link to="/passwordreset" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup" variant="inherit">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
-            </Grid>
+            
+           
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />
       </Container>
+     
     </ThemeProvider>
+    
   );
 }
