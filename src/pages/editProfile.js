@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import TextField from "@material-ui/core/TextField";
@@ -7,6 +7,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import Button from "@material-ui/core/Button";
+import axios from "axios";
 
 const style = {
   inputarea: {
@@ -30,6 +31,27 @@ const style = {
 };
 
 const EditProfile = () => {
+
+  const [user,setUser] = useState({});
+
+
+  useEffect(()=>{
+    axios.get(`${process.env.REACT_APP_BASE_URL}/users/getuser`,{
+      headers:{
+        'x-auth-token':localStorage.getItem('token')
+      }
+    })
+        .then((res)=>{
+          console.log(res.data)
+          setUser(res.data);
+         // setLoading(false);
+        })
+        .catch((err)=>{
+          console.log(err);
+        })
+  },[]);
+
+
   const [values, setValues] = React.useState({
     amount: "",
     passwordCur: "",
@@ -210,6 +232,7 @@ const EditProfile = () => {
                 fontWeight: "bold",
                 color: "#011238",
               }}
+              // onClick={}
             >
               Save Changes
             </Button>

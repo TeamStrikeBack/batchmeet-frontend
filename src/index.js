@@ -3,9 +3,14 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 
+const hello = ()=>{
+    this.props.history.push('/')
+}
+
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App hello={hello}/>
   </React.StrictMode>,
   document.getElementById("root")
 );

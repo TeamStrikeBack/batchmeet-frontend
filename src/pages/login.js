@@ -1,4 +1,4 @@
-import  React from 'react';
+import React, {useState} from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -13,6 +13,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { store, useGlobalState } from "state-pool";
+import axios from "axios";
 
 function Copyright(props) {
   return (
@@ -40,8 +41,14 @@ const themeOptions = {
 
 const theme = createTheme(themeOptions);
 
-export default function Login() {
+export default function Login(props) {
+
+
   const [logedin, setLogedin] = useGlobalState("logedIn");
+
+  const [email,setEmail] = useState('');
+  const [password,setPassword] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -51,10 +58,29 @@ export default function Login() {
       password: data.get('password'),
     });
   };
-  const preventDefault = (event) => event.preventDefault();
-  const setLoggedIn = () => {
-    console.log(logedin);
-    setLogedin(true);
+
+  // const preventDefault = (event) => event.preventDefault();
+
+  const setLoggedIn = (e) => {
+
+    //e.preventDefault();
+
+    const obj = {email,password}
+
+    axios.post(`${process.env.REACT_APP_BASE_URL}/auth`,obj)
+       .then((res)=>{
+         console.log(res.data);
+         localStorage["token"] = res.data.token;
+         setLogedin(true);
+         props.history.push('/home');
+       })
+       .catch((err)=>{
+         props.history.push('/login');
+         console.error(err);
+       })
+
+    //console.log(logedin);
+    // setLogedin(true);
   };
 
   return (
@@ -78,16 +104,18 @@ export default function Login() {
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
             <TextField
               margin="normal"
-             
               required
               fullWidth
-              id="username"
-              label="User Name"
-              name="username"
+              id="email"
+              label="Email"
+              name="email"
+              type="email"
+              value={email}
+              onChange={(e)=>setEmail(e.target.value)}
               autoComplete="username"
-              
+
               autoFocus
-              
+
             />
             <TextField
               margin="normal"
@@ -97,6 +125,8 @@ export default function Login() {
               label="Password"
               type="password"
               id="password"
+              value={password}
+              onChange={(e)=>setPassword(e.target.value)}
               autoComplete="current-password"
               style={{color:"#55BFB9"}}
             />
