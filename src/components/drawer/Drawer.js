@@ -117,13 +117,13 @@ function DrawerLeft(props) {
         <Divider />
 
         {/* Notices Button */}
-        <Link to="/notices" className="drawer-link">
-          <ListItem button className="drawer-button">
+        <Link to="/notices" className="drawer-link" >
+          <ListItem button className="drawer-button" >
             <ListItemIcon>
               <DashboardIcon className="drawer-icon" />
             </ListItemIcon>
 
-            <ListItemText primary={"Notices"} />
+            <ListItemText primary={"Notices"}/>
           </ListItem>
         </Link>
         <Divider />
@@ -166,7 +166,7 @@ function DrawerLeft(props) {
             <div />
           )}
 
-          <Typography noWrap className="title">
+          <Typography noWrap className="title" style={{fontWeight:"bold"}}>
             Batch Meet
           </Typography>
 
