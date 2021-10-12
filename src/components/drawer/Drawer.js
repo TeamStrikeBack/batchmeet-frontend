@@ -23,6 +23,7 @@ import { store, useGlobalState } from "state-pool";
 import Button from "@material-ui/core/Button";
 import ProjectRoutes from "../../routes";
 import "./Drawer.css";
+import App from '../../App';
 
 const drawerWidth = 200;
 
@@ -76,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function DrawerLeft(props) {
+export default function DrawerLeft(props,{logout}) {
   const [logedin, setLogedin] = useGlobalState("logedIn");
   const { window } = props;
   const classes = useStyles();
@@ -86,6 +87,12 @@ function DrawerLeft(props) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
+
+
+  // const handleLogout = () =>{
+  //  logout();
+  // }
+
 
   // Drawer -------------------------------------------------------------------
   const drawer = (
@@ -171,9 +178,19 @@ function DrawerLeft(props) {
           </Typography>
 
           {logedin === true ? (
+              <div>
             <IconButton edge="end" color="inherit" aria-label="menu">
               <PersonIcon />
             </IconButton>
+                <Button color="inherit"
+                        style={{backgroundColor:"",fontWeight:"bold",color:"white" ,marginRight:"5px",}}
+                        onClick={props.logout}>
+                    Log Out</Button>
+
+
+              </div>
+
+
           ) : (
             <div>
               <Link to="/login" className="drawer-link">
@@ -245,4 +262,4 @@ DrawerLeft.propTypes = {
   window: PropTypes.func,
 };
 
-export default DrawerLeft;
+

@@ -20,7 +20,7 @@ class ProjectRoutes extends React.Component {
         <Route exact path='/home' component={Home}></Route>
           <Route exact path='/login' component={Login}></Route>
           <Route exact path='/signup' component={Signup}></Route>
-         
+
           <Route exact path='/profile' component={Profile}></Route>
           <Route exact path='/notices' component={Notices}></Route>
           <Route exact path='/edit-profile' component={EditProfile}></Route>
