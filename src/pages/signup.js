@@ -3,8 +3,7 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+
 import { Link } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -18,7 +17,7 @@ function Copyright(props) {
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
-      <Link color="inherit"  to="http://localhost:3000/">
+      <Link to="http://localhost:3000/" color="inherit" >
         Batch Meet
       </Link>{' '}
       {new Date().getFullYear()}
@@ -73,9 +72,22 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Log In
+            Sign Up
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }} >
+            <TextField
+              margin="normal"
+             
+              required
+              fullWidth
+              id="email"
+              label="Email Address"
+              name="email"
+              autoComplete="email"
+              
+              autoFocus
+              
+            />
             <TextField
               margin="normal"
              
@@ -84,7 +96,7 @@ export default function Login() {
               id="username"
               label="User Name"
               name="username"
-              autoComplete="username"
+              autoComplete="email"
               
               autoFocus
               
@@ -100,30 +112,34 @@ export default function Login() {
               autoComplete="current-password"
               style={{color:"#55BFB9"}}
             />
-            <FormControlLabel
-              control={<Checkbox value="remember" style={{color:"#55BFB9"}} />}
-              label="Remember me"
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmpassword"
+              label="Confirm Password"
+              type="password"
+              id="confirmpassword"
+              
+              style={{color:"#55BFB9"}}
             />
-            <Link to="/home" style={{textDecoration:"none"}}>
+            
+            <Link to="/login" style={{textDecoration:"none"}}>
             <Button
               fullWidth
               variant="contained"
-              style={{backgroundColor:"#55BFB9",fontWeight:"bold",color:"white", marginBottom:"25px"}}
+              style={{backgroundColor:"#55BFB9",fontWeight:"bold",color:"white",marginBottom:"25px"}}
               sx={{ mt: 3, mb: 2 }}
-              onClick={setLoggedIn}
+              
             >
-              Sign In
+              Sign Up
             </Button>
             </Link>
-            <Grid container  style={{fontFamily:"Verdana",fontSize:"14px"}}>
-              <Grid item xs>
-                <Link to="/passwordreset" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link to="/signup" variant="inherit">
-                  {"Don't have an account? Sign Up"}
+            <Grid container style={{fontFamily:"Verdana",fontSize:"14px"}}>
+              
+              <Grid item  >
+                <Link to="/login" variant="inherit"  >
+                  {"Already have an account? Sign In"}
                 </Link>
               </Grid>
             </Grid>

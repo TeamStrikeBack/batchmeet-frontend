@@ -177,11 +177,12 @@ function DrawerLeft(props) {
           ) : (
             <div>
               <Link to="/login" className="drawer-link">
-                <Button color="inherit">Login</Button>
+                <Button color="inherit" style={{backgroundColor:"",fontWeight:"bold",color:"white" ,marginRight:"5px",}}>
+                  Log In</Button>
               </Link>
 
-              <Link to="/signin" className="drawer-link">
-                <Button color="inherit">Sign In</Button>
+              <Link to="/signup" className="drawer-link">
+                <Button color="inherit" style={{backgroundColor:"#000",fontWeight:"bold",color:"white" }}>Sign Up</Button>
               </Link>
             </div>
           )}
