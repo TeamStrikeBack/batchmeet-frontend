@@ -24,6 +24,18 @@ import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import CommentIcon from '@mui/icons-material/Comment';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import TextField from '@mui/material/TextField';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import ImageIcon from '@mui/icons-material/Image';
+import { styled } from '@mui/material/styles';
+import Stack from '@mui/material/Stack';
+
 
 const faces = [
     "http://i.pravatar.cc/300?img=1",
@@ -66,13 +78,37 @@ const faces = [
       }
     }
   });
- 
-
+  const themeOptions = {
+    palette: {
+      type: 'light',
+      primary: {
+        main: '#55BFB9',
+      },
+      secondary: {
+        main: '#f50057',
+      },
+      
+    }
+  };
+  const Input = styled('input')({
+    display: 'none',
+  });
+  const theme = createTheme(themeOptions);
   export default function Home () {
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
   
+    //Post crete Popup
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+
+    const handleClickClose = () => {
+      setOpen(false);
+    };
    
   
     const handleClose = () => {
@@ -80,10 +116,12 @@ const faces = [
     };
 
     return(
+      
     <div>
     
     <div style={{maxWidth:"900px"}}>
-      
+    
+  
       <Box >
       
       <AppBar position="static" style={{backgroundColor:"#55BFB9"}}>
@@ -99,7 +137,7 @@ const faces = [
                 aria-label="account of current user"
                 aria-controls="menu-appbar"
                 aria-haspopup="true"
-                
+                onClick={handleClickOpen}
                 color="inherit"
               >
               
@@ -108,7 +146,71 @@ const faces = [
               </IconButton>
               
             </div>
-          
+            <Dialog
+              open={open}
+              onClose={handleClickClose}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description">
+
+              <DialogTitle id="alert-dialog-title" style={{backgroundColor:"#55BFB9"}}>
+                <Typography 
+                  variant="h6" 
+                  align="center" 
+                  color="white"
+                  component="div" 
+                  sx={{ flexGrow: 1 }} >
+                  Create Post
+                </Typography>
+              </DialogTitle>
+            <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+            
+          <Box component="form"  noValidate sx={{ mt: 1 }} >
+            <TextField
+              margin="normal"
+              fullWidth
+              id="standard-multiline-static"
+              label="Caption"
+              variant="standard"
+              
+              inputProps={{color:'#55BFB9'}}
+              style={{color:"#55BFB9"}}
+
+            />
+            <TextField
+              margin="normal"
+              fullWidth
+              id="standard-multiline-static"
+              label="Description"
+              multiline
+              rows={4}
+              variant="standard"
+              style={{color:"#55BFB9"}}
+            />
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <label htmlFor="icon-button-file">
+                <Input accept="image/*" id="icon-button-file" type="file" />
+                <IconButton  aria-label="upload picture" component="span" style={{color:"#55BFB9"}}>
+                  <ImageIcon fontSize="large"/>
+                </IconButton>
+              </label>
+            </Stack>
+            
+            </Box>
+            </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+            
+           
+              
+            
+            <Button onClick={handleClickClose} color="inherit" style={{backgroundColor:"",fontWeight:"bold",color:"#55BFB9" ,marginRight:"5px",}}>
+                  Cancel</Button>
+            <Button  onClick={handleClickClose}  color="inherit" style={{backgroundColor:"#55BFB9",fontWeight:"bold",color:"white" ,marginRight:"5px",}}>
+                  Post</Button>
+              
+        </DialogActions>
+      </Dialog>
         </Toolbar>
       </AppBar>
     </Box>
@@ -198,9 +300,9 @@ const faces = [
       </div>
       
       
-    
+      
     </div>
-  
+    
     );
 
     
