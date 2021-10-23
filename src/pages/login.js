@@ -61,7 +61,7 @@ export default function Login(props) {
 
   // const preventDefault = (event) => event.preventDefault();
 
-  const setLoggedIn = (e) => {
+  const setLoggedIn = () => {
 
     //e.preventDefault();
 
@@ -71,6 +71,8 @@ export default function Login(props) {
        .then((res)=>{
          console.log(res.data);
          localStorage["token"] = res.data.token;
+         localStorage["id"] = res.data.user._id;
+         localStorage["role"] = res.data.user.role;
          setLogedin(true);
          props.history.push('/home');
        })

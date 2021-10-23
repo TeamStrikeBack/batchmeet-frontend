@@ -10,24 +10,24 @@ const App = (props,{hello}) => {
 
     const [logedin, setLogedin] = useGlobalState("logedIn");
 
-     const logout = ()=>{
+    const logout = ()=>{
         setLogedin(false);
         localStorage.clear();
         window.location.reload();
-         props.hello();
-     }
+        props.hello();
+    }
 
 
-return(
-    <Router>
-        <Fragment>
-            <main>
-                <DrawerLeft logout={logout} />
-            </main>
-        </Fragment>
+    return(
+        <Router>
+            <Fragment>
+                <main>
+                    <DrawerLeft logout={logout} />
+                </main>
+            </Fragment>
 
-    </Router>
-)
+        </Router>
+    )
 };
 
 export default App;
