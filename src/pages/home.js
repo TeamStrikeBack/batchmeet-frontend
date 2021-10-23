@@ -1,5 +1,5 @@
-import React from "react";
-import {useState} from 'react';  
+import React,{useEffect} from "react";
+import {useState} from 'react';
 import ReactDOM from "react-dom";
 import { withStyles } from "@material-ui/core/styles";
 import Avatar from "@material-ui/core/Avatar";
@@ -35,6 +35,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import ImageIcon from '@mui/icons-material/Image';
 import { styled } from '@mui/material/styles';
 import Stack from '@mui/material/Stack';
+import axios from "axios";
 
 
 const faces = [
@@ -43,7 +44,7 @@ const faces = [
     "http://i.pravatar.cc/300?img=3",
     "http://i.pravatar.cc/300?img=4"
   ];
-  
+
   const styles = muiBaseTheme => ({
     card: {
       maxWidth: "100px",
@@ -87,20 +88,68 @@ const faces = [
       secondary: {
         main: '#f50057',
       },
-      
+
     }
   };
   const Input = styled('input')({
     display: 'none',
   });
   const theme = createTheme(themeOptions);
+
+
+
   export default function Home () {
 
 
     const [anchorEl, setAnchorEl] = React.useState(null);
-  
+
+    const [posts, setPosts] = useState([]);
+    var postCount = 1;
+
     //Post crete Popup
     const [open, setOpen] = React.useState(false);
+
+
+
+    useEffect(() => {
+      axios.get(`${process.env.REACT_APP_BASE_URL}/posts`, {
+        headers: {
+          'x-auth-token': localStorage.getItem('token')
+        }
+      })
+          .then((res) => {
+            console.log(res.data);
+            setPosts(res.data);
+          })
+          .catch((err) => {
+            alert(err);
+            console.log(err);
+          })
+    }, []);
+
+
+
+    const likeHandler = (id) => {
+
+      axios.put(`${process.env.REACT_APP_BASE_URL}/posts/like/` + id, {}, {
+        headers: {
+          'x-auth-token': localStorage.getItem('token')
+        }
+      })
+          .then((res) => {
+            console.log(res.data)
+          })
+          .catch((err) => {
+            console.error(err);
+            alert(err);
+          })
+      window.location.reload();
+    };
+
+    const LikedUser = (post) => {
+      return post.user == localStorage.getItem('id');
+    }
+
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -109,28 +158,28 @@ const faces = [
     const handleClickClose = () => {
       setOpen(false);
     };
-   
-  
+
+
     const handleClose = () => {
       setAnchorEl(null);
     };
 
     return(
-      
+
     <div>
-    
+
     <div style={{maxWidth:"900px"}}>
-    
-  
+
+
       <Box >
-      
+
       <AppBar position="static" style={{backgroundColor:"#55BFB9"}}>
         <Toolbar>
-          
+
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             News Feed
           </Typography>
-          
+
             <div>
               <IconButton
                 size="large"
@@ -140,11 +189,11 @@ const faces = [
                 onClick={handleClickOpen}
                 color="inherit"
               >
-              
+
                 <AddIcon fontSize="large" color="white"/>
-                
+
               </IconButton>
-              
+
             </div>
             <Dialog
               open={open}
@@ -153,18 +202,18 @@ const faces = [
               aria-describedby="alert-dialog-description">
 
               <DialogTitle id="alert-dialog-title" style={{backgroundColor:"#55BFB9"}}>
-                <Typography 
-                  variant="h6" 
-                  align="center" 
+                <Typography
+                  variant="h6"
+                  align="center"
                   color="white"
-                  component="div" 
+                  component="div"
                   sx={{ flexGrow: 1 }} >
                   Create Post
                 </Typography>
               </DialogTitle>
             <DialogContent>
             <DialogContentText id="alert-dialog-description">
-            
+
           <Box component="form"  noValidate sx={{ mt: 1 }} >
             <TextField
               margin="normal"
@@ -172,7 +221,7 @@ const faces = [
               id="standard-multiline-static"
               label="Caption"
               variant="standard"
-              
+
               inputProps={{color:'#55BFB9'}}
               style={{color:"#55BFB9"}}
 
@@ -195,118 +244,150 @@ const faces = [
                 </IconButton>
               </label>
             </Stack>
-            
+
             </Box>
             </DialogContentText>
             </DialogContent>
             <DialogActions>
-            
-           
-              
-            
+
+
+
+
             <Button onClick={handleClickClose} color="inherit" style={{backgroundColor:"",fontWeight:"bold",color:"#55BFB9" ,marginRight:"5px",}}>
                   Cancel</Button>
             <Button  onClick={handleClickClose}  color="inherit" style={{backgroundColor:"#55BFB9",fontWeight:"bold",color:"white" ,marginRight:"5px",}}>
                   Post</Button>
-              
+
         </DialogActions>
       </Dialog>
         </Toolbar>
       </AppBar>
     </Box>
-      
-    
-    <br/>
-      <Card >
-      
-        <CardContent >
-          <Typography
-            className={"MuiTypography--heading"}
-            variant={"h6"}
-            gutterBottom
-          >
-            Post 1
-          </Typography>
-          <Divider sx={{mb:5}}/>
-          <Typography
-            className={"MuiTypography--subheading"}
-            
-            style={{fontSize:"14px",marginTop:"15px",marginBottom:"5px"}}
-          >
-            There are many variations of passages of Lorem Ipsum available, 
-            but the majority have suffered alteration in some form, by injected humour, 
-            or randomised words which don't look even slightly believable. 
-            If you are going to use a passage of Lorem Ipsum, you need to be sure 
-            there isn't anything embarrassing hidden in the middle of text.
-            All the Lorem Ipsum generators on the Internet tend to repeat predefined 
-            hunks as necessary, making this the first true generator on the Internet. 
-            It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures,
-            to generate Lorem Ipsum which looks reasonable.
-            The generated Lorem Ipsum is therefore always free from repetition, 
-            injected humour, or non-characteristic words etc.
-          </Typography>
-          <br/>
-          <br/>
-          
-       
-          
-         
-        </CardContent>
-        <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        maxWidth:"900",
-        backgroundColor:"",
-        
-        
-      }}
-     
-    >
-      <ButtonGroup variant="contained" fullWidth="true" color="inherit">
-        <Button 
-            style={{display: 'flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    backgroundColor:"#55BFB9",
-                    fontWeight:"bold",
-                    fontSize:"14px",
-                    color:"white"}}>
-            <ThumbUpIcon sx={{mr:2,mt:0}}/>
-            <span>Like</span>
-           
-        </Button>
-        <Button 
-            style={{display: 'flex',
-                    alignItems: 'center',
-                    flexWrap: 'wrap',
-                    backgroundColor:"#55BFB9",
-                    fontWeight:"bold",
-                    fontSize:"14px",
-                    color:"white"}}>
-            <CommentIcon sx={{mr:2,mt:0}}/>
-            <span>Comment</span>
-           
-        </Button>
-       
-      </ButtonGroup>
-      
-    </Box>
-    
-      </Card>
-      <br/>
-    
-      </div>
-      
-      
-      
-    </div>
-    
-    );
 
-    
-    
-          }
+
+    <br/>
+
+
+      {posts.map((post, index) => {
+        return (
+            <div style={{maxWidth: "900px"}}>
+              <Card>
+                <CardContent>
+                  <Typography
+                      className={"MuiTypography--heading"}
+                      variant={"h6"}
+                      gutterBottom
+                  >
+                    {postCount++}
+                  </Typography>
+                  <Divider sx={{mb: 5}}/>
+                  <Typography
+                      className={"MuiTypography--subheading"}
+                      style={{fontSize: "14px", marginTop: "15px", marginBottom: "5px"}}
+                  >
+                    {post.posttext}
+                  </Typography>
+                  <br/>
+                  <br/>
+
+                </CardContent>
+                <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      maxWidth: "900",
+                      backgroundColor: "",
+                    }}
+                >
+
+                  {post.likes.find(LikedUser) ? (
+                      <ButtonGroup variant="contained" fullWidth="true" color="inherit">
+                        <Button
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              backgroundColor: "#55BFB9",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "white"
+                            }}
+                            // onClick={() => likeHandler(post._id)}
+                        >
+                          <ThumbUpIcon sx={{mr: 2, mt: 0}}/>
+                          <span>Unliked          {post.likes.length} </span>
+
+                        </Button>
+                        <Button
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              backgroundColor: "#55BFB9",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "white"
+                            }}>
+                          <CommentIcon sx={{mr: 2, mt: 0}}/>
+                          <span>Comment</span>
+
+                        </Button>
+                      </ButtonGroup>
+                  ) : (
+                      <ButtonGroup variant="contained" fullWidth="true" color="inherit">
+                        <Button
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              backgroundColor: "#55BFB9",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "white"
+                            }}
+                            onClick={() => likeHandler(post._id)}
+                        >
+                          <ThumbUpIcon sx={{mr: 2, mt: 0}}/>
+                          <span>Like</span>
+
+                        </Button>
+                        <Button
+                            style={{
+                              display: 'flex',
+                              alignItems: 'center',
+                              flexWrap: 'wrap',
+                              backgroundColor: "#55BFB9",
+                              fontWeight: "bold",
+                              fontSize: "14px",
+                              color: "white"
+                            }}>
+                          <CommentIcon sx={{mr: 2, mt: 0}}/>
+                          <span>Comment</span>
+
+                        </Button>
+                      </ButtonGroup>
+                  )}
+
+
+                </Box>
+              </Card>
+            </div>
+        );
+      })}
+
+
+
+
+      <br/>
+
+      </div>
+
+
+
+    </div>
+
+    );
+  }
 
 
